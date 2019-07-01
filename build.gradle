@@ -29,20 +29,23 @@ task clean(type: Delete) {
 
 ext {
     COROUTINES_VERSION = "1.3.0-M1"
-    APPCOMPAT_VERSION = "1.0.0"
+    APPCOMPAT_VERSION = "1.0.2"
     CONSTRAINT_LAYOUT_VERSION = "1.1.3"
     RETROFIT_VERSION = "2.6.0"
     GSON_VERSION = "2.8.5"
     LIFECYCLE_VERSION = "2.0.0"
     OKHTTP_INTERCEPTOR = "3.12.3"
     KOIN_VERSION = "2.0.1"
+    MATERIAL_DESIGN_VERSION = "1.1.0-alpha06"
 
     deps = [
             kotlinJdk           :   "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             appCompat           :   "androidx.appcompat:appcompat:$APPCOMPAT_VERSION",
             constraintLayout    :   "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION",
+            materialDesign      :   "com.google.android.material:material:$MATERIAL_DESIGN_VERSION",
 
             koin                :   "org.koin:koin-android:$KOIN_VERSION",
+            koinViewModel       :   "org.koin:koin-android-viewmodel:$KOIN_VERSION",
 
             coroutines          :   "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION",
             coroutinesAndroid   :   "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION",

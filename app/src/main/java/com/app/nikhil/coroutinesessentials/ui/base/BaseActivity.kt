@@ -1,20 +1,22 @@
 package com.app.nikhil.coroutinesessentials.ui.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import org.koin.android.viewmodel.ext.android.viewModel
+import kotlin.reflect.KClass
 
 abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
 
-    lateinit var viewModel: VM
+    abstract val viewmodel: VM
 
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    abstract fun getViewModelClass(): Class<VM>
+    abstract fun getViewModelKClass(): KClass<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(getViewModelClass())
+    }
+
+    fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
