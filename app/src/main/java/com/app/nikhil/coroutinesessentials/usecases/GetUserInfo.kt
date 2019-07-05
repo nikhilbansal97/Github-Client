@@ -7,8 +7,9 @@ import com.app.nikhil.coroutinesessentials.utils.createBase64Encoding
 import kotlinx.coroutines.coroutineScope
 import retrofit2.Response
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class GetUserInfo(private val authService: AuthService) : BaseUseCase() {
+class GetUserInfo @Inject constructor(private val authService: AuthService) : BaseUseCase() {
 
   suspend operator fun invoke(username: String, password: String): Response<User> {
     return coroutineScope {

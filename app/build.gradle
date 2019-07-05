@@ -24,6 +24,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    androidExtensions {
+        experimental = true
+    }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -37,9 +43,9 @@ dependencies {
     implementation deps.coroutines
     implementation deps.coroutinesAndroid
 
-    // Koin
-    implementation deps.koin
-    implementation deps.koinViewModel
+    // Dagger
+    implementation deps.dagger
+    kapt deps.daggerCompiler
 
     // Retrofit
     implementation deps.retrofit
@@ -49,6 +55,7 @@ dependencies {
 
     // ViewModel and LiveData
     implementation deps.archComponents
+    implementation deps.picasso
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -14,8 +14,9 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class AuthTokenUseCase(private val authService: AuthService) : BaseUseCase() {
+class AuthTokenUseCase @Inject constructor(private val authService: AuthService) : BaseUseCase() {
 
     suspend operator fun invoke(username: String, password: String): Response<Token> {
         return coroutineScope {

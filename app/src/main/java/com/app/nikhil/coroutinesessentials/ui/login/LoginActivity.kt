@@ -1,30 +1,60 @@
 package com.app.nikhil.coroutinesessentials.ui.login
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
+import com.app.nikhil.coroutinesessentials.MainApplication
 import com.app.nikhil.coroutinesessentials.R
+import com.app.nikhil.coroutinesessentials.databinding.ActivityLoginBinding
 import com.app.nikhil.coroutinesessentials.ui.base.BaseActivity
+import com.app.nikhil.coroutinesessentials.ui.base.ViewState
+import com.app.nikhil.coroutinesessentials.ui.userinfo.UserInfoActivity
+import com.app.nikhil.coroutinesessentials.utils.Constants
 import com.app.nikhil.coroutinesessentials.utils.animateFadeIn
 import kotlinx.android.synthetic.main.activity_login.*
-import org.koin.android.viewmodel.ext.android.viewModel
-import kotlin.reflect.KClass
 
-class LoginActivity : BaseActivity<LoginViewModel>() {
+class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
 
-  override val viewmodel: LoginViewModel by viewModel()
+  override fun getLayoutId(): Int = R.layout.activity_login
 
-  override fun getViewModelKClass(): KClass<LoginViewModel> = LoginViewModel::class
+  override fun getViewModelClass(): Class<LoginViewModel> = LoginViewModel::class.java
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_login)
-
     initUi()
     setupObservers()
     setupListeners()
   }
 
+  override fun handleStateChange(viewState: ViewState) {
+    when (viewState) {
+      is ViewState.Loading -> {
+        showProgress()
+      }
+      is ViewState.Success -> {
+        hideProgress()
+        startNextActivity()
+      }
+      is ViewState.Error<*> -> {
+        hideProgress()
+        showMessage(viewState.error.message!!)
+      }
+    }
+  }
+
+  private fun startNextActivity() {
+    val bundle = Bundle()
+    bundle.putParcelable(Constants.BUNDLE_KEY_USER, viewmodel.user)
+    val intent = Intent(this, UserInfoActivity::class.java)
+    intent.putExtra(Constants.BUNDLE_KEY_USER, viewmodel.user)
+    startActivity(intent)
+  }
+
   private fun initUi() {
+    (application as MainApplication).appComponent.inject(this)
+    bindLayout(getLayoutId())
     githubLabelImage.animateFadeIn()
   }
 
@@ -37,12 +67,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
   }
 
   private fun setupObservers() {
-    viewmodel.errorLiveData.observe(this, Observer {
-      it?.let { exception -> showMessage(exception.message!!) }
-    })
-
-    viewmodel.userInfoLiveData.observe(this, Observer {
-      it?.let { user -> showMessage(user.email) }
+    viewmodel.viewStateLiveData.observe(this, Observer {
+      it?.let { viewState -> handleStateChange(viewState) }
     })
   }
 }

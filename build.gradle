@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.31'
+    ext.kotlin_version = '1.3.40'
     repositories {
         google()
         jcenter()
@@ -23,6 +23,16 @@ allprojects {
     }
 }
 
+/*
+* javac by default outputs max 100 errors.
+* This will increase the max limit to 500
+*/
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "500"
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
@@ -35,8 +45,9 @@ ext {
     GSON_VERSION = "2.8.5"
     LIFECYCLE_VERSION = "2.0.0"
     OKHTTP_INTERCEPTOR = "3.12.3"
-    KOIN_VERSION = "2.0.1"
     MATERIAL_DESIGN_VERSION = "1.1.0-alpha06"
+    PICASSO_VERSION = "2.71828"
+    DAGGER_VERSION = "2.23.2"
 
     deps = [
             kotlinJdk           :   "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
@@ -44,8 +55,11 @@ ext {
             constraintLayout    :   "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION",
             materialDesign      :   "com.google.android.material:material:$MATERIAL_DESIGN_VERSION",
 
-            koin                :   "org.koin:koin-android:$KOIN_VERSION",
-            koinViewModel       :   "org.koin:koin-android-viewmodel:$KOIN_VERSION",
+            dagger              :   "com.google.dagger:dagger:$DAGGER_VERSION",
+            daggerAndroid       :   "com.google.dagger:dagger-android:$DAGGER_VERSION",
+            daggerSupport       :   "com.google.dagger:dagger-android-support:$DAGGER_VERSION",
+            daggerCompiler      :   "com.google.dagger:dagger-compiler:$DAGGER_VERSION",
+            daggerAndroidCompiler:  "com.google.dagger:dagger-android-processor:$DAGGER_VERSION",
 
             coroutines          :   "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION",
             coroutinesAndroid   :   "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION",
@@ -56,6 +70,7 @@ ext {
             gsonConverter       :   "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION",
 
             archComponents      :   "androidx.lifecycle:lifecycle-extensions:$LIFECYCLE_VERSION",
+            picasso             :   "com.squareup.picasso:picasso:$PICASSO_VERSION",
 
             junit               :   "junit:junit:4.12",
             testRunner          :   'androidx.test:runner:1.1.0',

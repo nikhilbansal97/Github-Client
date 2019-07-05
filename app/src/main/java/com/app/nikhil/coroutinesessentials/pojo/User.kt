@@ -1,7 +1,10 @@
 package com.app.nikhil.coroutinesessentials.pojo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class User(
   @SerializedName("login")
   val login: String,
@@ -79,7 +82,8 @@ data class User(
   val twoFactorAuthentication: Boolean,
   @SerializedName("plan")
   val plan: Plan
-) {
+) : Parcelable {
+  @Parcelize
   data class Plan(
     @SerializedName("name")
     val name: String,
@@ -89,5 +93,5 @@ data class User(
     val collaborators: Int,
     @SerializedName("private_repos")
     val privateRepos: Int
-  )
+  ) : Parcelable
 }
