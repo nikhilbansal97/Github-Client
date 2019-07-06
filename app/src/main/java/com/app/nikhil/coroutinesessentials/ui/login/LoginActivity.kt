@@ -50,6 +50,7 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
     val intent = Intent(this, UserInfoActivity::class.java)
     intent.putExtra(Constants.BUNDLE_KEY_USER, viewmodel.user)
     startActivity(intent)
+    overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left)
   }
 
   private fun initUi() {

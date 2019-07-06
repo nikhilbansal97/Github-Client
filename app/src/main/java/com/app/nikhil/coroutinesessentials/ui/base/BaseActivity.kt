@@ -42,14 +42,24 @@ abstract class BaseActivity<VM: ViewModel, B: ViewDataBinding> : AppCompatActivi
     }
 
     private fun createLoadingDialog() {
-        dialog = MaterialAlertDialogBuilder(this)
-            .setView(R.layout.layout_loading)
-            .setCancelable(false)
-            .create()
+        if (::dialog.isInitialized.not()) {
+            dialog = MaterialAlertDialogBuilder(this)
+                .setMessage(getString(R.string.loading))
+                .setCancelable(false)
+                .create()
+        }
     }
 
     fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showAlert(message: String) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(message)
+            .setCancelable(true)
+            .create()
+            .show()
     }
 
     fun showProgress() {

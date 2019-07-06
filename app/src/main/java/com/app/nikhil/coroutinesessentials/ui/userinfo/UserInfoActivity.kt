@@ -8,6 +8,11 @@ import com.app.nikhil.coroutinesessentials.pojo.User
 import com.app.nikhil.coroutinesessentials.ui.base.BaseActivity
 import com.app.nikhil.coroutinesessentials.ui.base.ViewState
 import com.app.nikhil.coroutinesessentials.utils.Constants
+import com.app.nikhil.coroutinesessentials.utils.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class UserInfoActivity : BaseActivity<UserInfoViewModel, ActivityUserInfoBinding>() {
 
@@ -22,7 +27,9 @@ class UserInfoActivity : BaseActivity<UserInfoViewModel, ActivityUserInfoBinding
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     init()
+
     val user = intent.getParcelableExtra<User>(Constants.BUNDLE_KEY_USER)
+    delay(2000L) { showAlert("Welcome ${user.name}!") }
   }
 
   private fun init() {

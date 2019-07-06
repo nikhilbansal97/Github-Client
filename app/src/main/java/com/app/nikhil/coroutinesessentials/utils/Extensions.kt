@@ -2,6 +2,9 @@ package com.app.nikhil.coroutinesessentials.utils
 
 import android.animation.ValueAnimator
 import androidx.appcompat.widget.AppCompatImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 fun AppCompatImageView.animateFadeIn() {
   val animator = ValueAnimator.ofFloat(0F, 1F)
@@ -12,4 +15,11 @@ fun AppCompatImageView.animateFadeIn() {
     }
   }
   animator.start()
+}
+
+fun delay(ms: Long, block: () -> Unit) {
+  CoroutineScope(Dispatchers.Main).launch {
+    kotlinx.coroutines.delay(ms)
+    block()
+  }
 }
